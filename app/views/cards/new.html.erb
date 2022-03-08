@@ -1,0 +1,38 @@
+<%= form_with model: @card, html: { method: :post }, local: true do |f| %>
+  <div class="card-infomation">
+    <div class="card-infomation-inner">
+      <div class="card-image">
+        <%= f.label :画像 %>
+        <%= f.file_field :image %>
+        <%= f.hidden_field :image_cache %>
+      </div>
+      <div class="card-name">
+        <%= f.label :名前 %>
+        <%= f.text_field :card_name %>
+      </div>
+      <div class="card-shop">
+        <%= f.label :よく使うお店 %>
+        <%= f.text_field :shop %>
+      </div>
+      <div class="card-category">
+        <%= f.label :種類 %>
+        <%= f.collection_select(:category_id, Category.all, :id, :name, {}, {class:"category-select"}) %>
+      </div>
+      <div class="card-expiration">
+        <%= f.label :有効期限 %>
+        <%= raw sprintf(
+          f.date_select(
+          :expiration,
+          use_month_numbers: true,
+          prompt:'--',
+          start_year: Time.now.year,
+          end_year: (Time.now.year + 10),
+          date_separator: '%s'),
+          "<p> 年 </p>", "<p> 月 </p>") + "<p> 日 </p>" %>
+      </div>
+      <div class="new-btn">
+        <%= f.submit "追加" %>
+      </div>
+    </div>
+  </div>
+<% end %>
